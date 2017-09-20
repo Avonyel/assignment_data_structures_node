@@ -64,6 +64,7 @@ class LinkedList {
 		previous.nextNode = newNode;
 	}
 
+	// should be O(n), ran it in place
 	reverse() {
 		let currentNode = this.head;
 		this.tail = currentNode;
