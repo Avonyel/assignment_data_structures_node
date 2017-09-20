@@ -8,7 +8,7 @@ class Node {
 class LinkedList {
 	constructor(nodes) {
 		if (!Array.isArray(nodes)) {
-			throw new Error('You must pass in an array of Nodes');
+			throw new Error("You must pass in an array of Nodes");
 		}
 
 		this.head = nodes[0];
@@ -21,7 +21,7 @@ class LinkedList {
 
 	readNode(index) {
 		let counter = 0;
-		let currentHead = this._head;
+		let currentHead = this.head;
 
 		while (counter < index) {
 			if (currentHead.nextNode === null) {
@@ -46,16 +46,56 @@ class LinkedList {
 
 		let counter = 0;
 		let currentHead = this.head;
+		let previous = null;
 
-		while (counter < index - 1) {
+		while (currentHead && counter < index - 1) {
 			if (currentHead.nextNode === null) {
 				return null;
 			}
+			previous = currentHead;
+			currentHead = currentHead.nextNode;
+			counter++;
 		}
+
+		previous = currentHead;
+		const newNode = new Node(data);
+
+		newNode.nextNode = previous.nextNode;
+		previous.nextNode = newNode;
+	}
+
+	reverse() {
+		let currentNode = this.head;
+		this.tail = currentNode;
+		let previousNode = null;
+		let next = null;
+		while (currentNode.nextNode) {
+			next = currentNode.nextNode;
+			currentNode.nextNode = previousNode;
+			previousNode = currentNode;
+			currentNode = next;
+		}
+
+		currentNode.nextNode = previousNode;
+		this.head = currentNode;
 	}
 }
 
-const node = new Node('hello');
-const linkedList = new LinkedList([node]);
+const node = new Node("hello");
+const node1 = new Node("hello1");
+const node2 = new Node("hello2");
+const node3 = new Node("hello3");
+
+const linkedList = new LinkedList([node, node1, node2, node3]);
 
 console.log(linkedList.readNode(0));
+console.log(linkedList.readNode(1));
+console.log(linkedList.readNode(2));
+console.log(linkedList.readNode(3));
+
+linkedList.reverse();
+
+console.log(linkedList.readNode(0));
+console.log(linkedList.readNode(1));
+console.log(linkedList.readNode(2));
+console.log(linkedList.readNode(3));
